@@ -7,15 +7,21 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import utils.TestUtils;
 
-public class SauceDemoTest {
-    WebDriver driver;
+import java.util.List;
+
+import static org.testng.Assert.assertTrue;
+
+public class SauceDemoTest extends BaseTest {
 
     @BeforeClass
-    public void setUp() {
-        driver = new ChromeDriver();
+    public void openPage() {
         driver.get("https://www.saucedemo.com/");
+        driver.manage().window().maximize();
+
     }
+
 
     @Test
     public void testOfSorting() throws InterruptedException {
@@ -25,14 +31,10 @@ public class SauceDemoTest {
         HomePage homePage = new HomePage(driver);
         homePage.changeOption();
 
-        homePage.getPrices().stream().forEach(price -> {
-            System.out.println(price.getText());
+        homePage.getPrices().forEach(price -> {
+            logger.info("Price: {}", price.getText());
         });
 
-    }
-
-    @AfterClass
-    public void tearDown() {
-        driver.quit();
+        assertTrue(TestUtils.isSortedAsc(homePage.extractPrices()), "List is not sorted correctly");
     }
 }

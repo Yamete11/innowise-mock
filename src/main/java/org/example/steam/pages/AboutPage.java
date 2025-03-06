@@ -21,7 +21,7 @@ public class AboutPage {
         PageFactory.initElements(driver, this);
     }
 
-    public boolean countDifference(){
+    public boolean checkDifference(){
         int online = extractNumber(onlinePlayers);
         int playing = extractNumber(playingPlayers);
         return online > playing;

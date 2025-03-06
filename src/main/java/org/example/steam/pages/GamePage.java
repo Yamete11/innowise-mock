@@ -5,23 +5,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class GamePage {
 
     private WebDriver driver;
 
-    @FindBy(xpath = "//div[@id=\"appHubAppName\"]")
+    @FindBy(id = "appHubAppName")
     private WebElement title;
 
-    @FindBy(xpath = "//div[@class=\"game_area_purchase_game  \"]//div[@class=\"game_purchase_price price\"]")
+    @FindBy(xpath = "//div[@class=\"game_purchase_action\"]//div[@class=\"game_purchase_price price\"]")
     private WebElement price;
 
-    @FindBy(xpath = "//div[@class=\"date\"]")
+    @FindBy(className = "date")
     private WebElement releaseDate;
 
-    @FindBy(xpath = "//a[@href=\"https://store.steampowered.com/tags/en/FPS/?snr=1_5_9__409\"]")
-    private WebElement mainGenre;
+    @FindBy(xpath = "//a[@class=\"app_tag\" and @style=\"\"]")
+    private List<WebElement> mainGenre;
 
-    @FindBy(xpath = "//a[@href=\"https://store.steampowered.com/developer/valve?snr=1_5_9__2000\"]")
+    @FindBy(id = "developers_list")
     private WebElement developer;
 
 
@@ -42,7 +44,7 @@ public class GamePage {
         return releaseDate;
     }
 
-    public WebElement getMainGenre() {
+    public List<WebElement> getMainGenre() {
         return mainGenre;
     }
 

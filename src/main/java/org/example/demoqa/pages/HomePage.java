@@ -1,59 +1,89 @@
 package org.example.demoqa.pages;
 
 import org.example.steam.components.Header;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.security.interfaces.XECPrivateKey;
+import java.time.Duration;
+import java.util.Objects;
 
 public class HomePage {
 
     private WebDriver driver;
 
-    @FindBy(xpath = "//input[@id=\"firstName\"]")
+    String filePath = new File("src/main/resources/test3.jpg").getAbsolutePath();
+
+
+    @FindBy(id = "firstName")
     private WebElement firstName;
 
-    @FindBy(xpath = "//input[@id=\"lastName\"]")
+    @FindBy(id = "lastName")
     private WebElement lastName;
 
-    @FindBy(xpath = "//input[@id=\"userEmail\"]")
+    @FindBy(id = "userEmail")
     private WebElement email;
 
-    @FindBy(xpath = "//input[@id=\"userNumber\"]")
+    @FindBy(id = "userNumber")
     private WebElement phoneNumber;
 
-    @FindBy(xpath = "//input[@id=\"dateOfBirthInput\"]")
-    private WebElement dateOfBirth;
+    @FindBy(id = "subjectsContainer")
+    private WebElement subject;
 
-    @FindBy(xpath = "//input[@value=\"Male\"]")
-    private WebElement gender;
+    @FindBy(id = "subjectsInput")
+    private WebElement subjectInput;
 
-    @FindBy(xpath = "//input[@id=\"hobbies-checkbox-1\"]")
+    @FindBy(id = "react-select-2-option-0")
+    private WebElement subjectOption;
+
+    @FindBy(xpath = "//label[@for=\"hobbies-checkbox-1\"]")
     private WebElement hobby;
 
-    @FindBy(xpath = "//textarea[@id=\"currentAddress\"]")
+    @FindBy(id = "uploadPicture")
+    private WebElement choosePictureButton;
+
+    @FindBy(id = "currentAddress")
     private WebElement address;
 
-    @FindBy(xpath = "//div[@class=\" css-yk16xz-control\"]")
+    @FindBy(id = "state")
     private WebElement selectState;
 
-    @FindBy(xpath = "//div[@id=\"react-select-3-option-0\"]")
+    @FindBy(id = "react-select-3-option-0")
     private WebElement ncr;
 
-    @FindBy(xpath = "//div[@class=\" css-yk16xz-control\"]")
+    @FindBy(id = "city")
     private WebElement selectCity;
 
-    @FindBy(xpath = "//div[@id=\"react-select-4-option-0\"]")
+    @FindBy(id = "react-select-4-option-0")
     private WebElement delhi;
 
-    @FindBy(xpath = "//button[@id=\"submit\"]")
+    @FindBy(id = "submit")
     private WebElement submitButton;
+
+    @FindBy(id = "example-modal-sizes-title-lg")
+    private WebElement successNotification;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
+    }
+
+    public boolean isSuccessNotificationPresent() {
+        try {
+            return successNotification.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     public static class FormBuilder {
@@ -85,13 +115,29 @@ public class HomePage {
             return this;
         }
 
-        public FormBuilder setGender() {
-            homePage.gender.click();
+        public FormBuilder setGender(String gender) {
+            String genderXPath = String.format("//label[contains(text(), \"%s\")]", gender);
+            WebElement genderElement = driver.findElement(By.xpath(genderXPath));
+            genderElement.click();
+            return this;
+        }
+
+        public FormBuilder setSubject(String subject) {
+            homePage.subject.click();
+            homePage.subjectInput.sendKeys(subject);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(homePage.subjectOption));
+            homePage.subjectOption.click();
             return this;
         }
 
         public FormBuilder setHobby() {
             homePage.hobby.click();
+            return this;
+        }
+
+        public FormBuilder setChoosePicture() {
+            homePage.choosePictureButton.sendKeys(homePage.filePath);
             return this;
         }
 
@@ -101,18 +147,37 @@ public class HomePage {
         }
 
         public FormBuilder setState() {
-            homePage.selectState.click();
-            homePage.ncr.click();
+            Wait<WebDriver> wait = new FluentWait<>(driver)
+                    .withTimeout(Duration.ofSeconds(10))
+                    .pollingEvery(Duration.ofSeconds(1))
+                    .ignoring(Exception.class);
+
+            wait.until(driver -> {
+                try {
+                    homePage.selectState.click();
+                    homePage.ncr.click();
+                    return true;
+                } catch (Exception e) {
+                    return false;
+                }
+            });
+
             return this;
         }
 
+
         public FormBuilder setCity() {
             homePage.selectCity.click();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(homePage.delhi));
             homePage.delhi.click();
             return this;
         }
 
+
         public void submit() {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(homePage.submitButton));
             homePage.submitButton.click();
         }
     }

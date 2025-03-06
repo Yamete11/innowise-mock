@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HomePage {
 
@@ -17,7 +18,7 @@ public class HomePage {
     @FindBy(xpath = "//option[@value=\"lohi\"]")
     private WebElement option;
 
-    @FindBy(xpath = "//div[@data-test=\"inventory-item-price\"]")
+    @FindBy(className = "inventory_item_price")
     private List<WebElement> prices;
 
     public HomePage(WebDriver driver) {
@@ -32,5 +33,12 @@ public class HomePage {
 
     public List<WebElement> getPrices() {
         return prices;
+    }
+
+    public List<Double> extractPrices() {
+        return prices.stream()
+                .map(price -> price.getText().replace("$", "").trim())
+                .map(Double::parseDouble)
+                .collect(Collectors.toList());
     }
 }

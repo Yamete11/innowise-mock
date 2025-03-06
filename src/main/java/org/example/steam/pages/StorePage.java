@@ -10,7 +10,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 public class StorePage {
@@ -18,8 +17,8 @@ public class StorePage {
     private WebDriver driver;
 
 
-    @FindBy(xpath = "//button[@class=\"DialogDropDown _DialogInputContainer  Focusable\"]")
-    private WebElement dialogButton;
+    @FindBy(xpath = "//button[contains(@class, \"DialogDropDown _DialogInputContainer\")]")
+    private WebElement filterButton;
 
 
 
@@ -32,8 +31,8 @@ public class StorePage {
 
     public void changeCountry(String country){
         WebDriverWait waitDialog = new WebDriverWait(driver, Duration.ofSeconds(10));
-        waitDialog.until(ExpectedConditions.elementToBeClickable(dialogButton));
-        dialogButton.click();
+        waitDialog.until(ExpectedConditions.elementToBeClickable(filterButton));
+        filterButton.click();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement countryOption = wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath("//button[@class='_2oAiZidGyUxL-hfupFDQ2m']/div[contains(text(), '" + country + "')]/.."))));
