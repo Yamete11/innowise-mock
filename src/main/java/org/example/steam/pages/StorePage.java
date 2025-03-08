@@ -44,12 +44,13 @@ public class StorePage {
     public List<WebElement> collectGames(int quantity) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//tr[@class=\"_2-RN6nWOY56sNmcDHu069P\"]")));
+        String cssSelector = String.format("tbody tr:nth-child(-n+%d)", quantity);
 
-        List<WebElement> allItems = driver.findElements(By.xpath("//tr[@class=\"_2-RN6nWOY56sNmcDHu069P\"]"));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(cssSelector)));
 
-        return allItems.size() > quantity ? allItems.subList(0, quantity) : allItems;
+        return driver.findElements(By.cssSelector(cssSelector));
     }
+
 
     public String extractTitle(WebElement element){
         return element.findElement(By.xpath("//div[@class=\"_1n_4-zvf0n4aqGEksbgW9N\"]")).getText();

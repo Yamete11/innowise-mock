@@ -1,5 +1,6 @@
 package org.example.demoqa.pages;
 
+import org.example.demoqa.components.Form;
 import org.example.steam.components.Header;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -21,6 +22,8 @@ import java.util.Objects;
 public class HomePage {
 
     private WebDriver driver;
+
+    private Form form;
 
     String filePath = new File("src/main/resources/test3.jpg").getAbsolutePath();
 
@@ -46,7 +49,7 @@ public class HomePage {
     @FindBy(id = "react-select-2-option-0")
     private WebElement subjectOption;
 
-    @FindBy(xpath = "//label[@for=\"hobbies-checkbox-1\"]")
+    @FindBy(id = "hobbiesWrapper")
     private WebElement hobby;
 
     @FindBy(id = "uploadPicture")
@@ -70,20 +73,15 @@ public class HomePage {
     @FindBy(id = "submit")
     private WebElement submitButton;
 
-    @FindBy(id = "example-modal-sizes-title-lg")
-    private WebElement successNotification;
-
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        this.form = new Form(driver);
         PageFactory.initElements(driver, this);
     }
 
-    public boolean isSuccessNotificationPresent() {
-        try {
-            return successNotification.isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+
+    public Form getForm() {
+        return form;
     }
 
     public static class FormBuilder {
@@ -123,18 +121,29 @@ public class HomePage {
         }
 
         public FormBuilder setSubject(String subject) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            wait.until(ExpectedConditions.elementToBeClickable(homePage.subject));
             homePage.subject.click();
             homePage.subjectInput.sendKeys(subject);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
             wait.until(ExpectedConditions.elementToBeClickable(homePage.subjectOption));
             homePage.subjectOption.click();
             return this;
         }
 
-        public FormBuilder setHobby() {
-            homePage.hobby.click();
+        public FormBuilder setHobby(String hobbyToSelect) {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.visibilityOf(homePage.hobby));
+
+            String hobbyXPath = String.format("//label[contains(text(), '%s')]", hobbyToSelect);
+
+            WebElement hobbyElement = driver.findElement(By.xpath(hobbyXPath));
+            hobbyElement.click();
+
             return this;
         }
+
 
         public FormBuilder setChoosePicture() {
             homePage.choosePictureButton.sendKeys(homePage.filePath);
@@ -180,6 +189,11 @@ public class HomePage {
             wait.until(ExpectedConditions.elementToBeClickable(homePage.submitButton));
             homePage.submitButton.click();
         }
+
+        public HomePage getHomePage() {
+            return homePage;
+        }
+
     }
 
 }

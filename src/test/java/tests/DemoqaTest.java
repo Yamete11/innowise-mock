@@ -20,17 +20,18 @@ public class DemoqaTest extends BaseTest {
     @DataProvider(name = "formData")
     public Object[][] provideFormData() {
         return new Object[][] {
-                { "John", "Doe", "john.doe@gmail.com", "Male", "12345671230", "Maths", "Hello There", true },
-                { "John", "Doe", "john.doe@gmail.com", "Male", "1", "Maths", "Hello There", false },
-                { "John", "", "john.doe@gmail.com", "Male", "12345671230", "Maths", "Hello There", false },
-                { "", "Doe", "john.doe@gmail.com", "Male", "12345671230", "Maths", "Hello There", false },
-                { "John", "Doe", "john.doe@gmail.com", "", "12345671230", "Maths", "Hello There", false },
+                { "John", "Doe", "john.doe@gmail.com", "Male", "1234567123", "Maths", "Sports", "Hello There", true },
+                { "John", "Doe", "john.doe@gmail.com", "Male", "1", "Maths", "Sports", "Hello There", false },
+                { "John", "", "john.doe@gmail.com", "Male", "1234567123", "Maths", "Sports", "Hello There", false },
+                { "", "Doe", "john.doe@gmail.com", "Male", "1234567123", "Maths", "Sports", "Hello There", false },
+                { "John", "Doe", "john.doe@gmail.com", "", "1234567123", "Maths", "Sports", "Hello There", false },
         };
     }
 
     @Test(dataProvider = "formData")
-    public void testSendingForm(String firstName, String lastName, String email, String gender, String phoneNumber, String subject, String address, boolean success) {
+    public void testSendingForm(String firstName, String lastName, String email, String gender, String phoneNumber, String subject, String hobby, String address, boolean success) {
         HomePage.FormBuilder formBuilder = new HomePage.FormBuilder(driver);
+        HomePage homePage = formBuilder.getHomePage();
         formBuilder
                 .setFirstName(firstName)
                 .setLastName(lastName)
@@ -38,19 +39,19 @@ public class DemoqaTest extends BaseTest {
                 .setGender(gender)
                 .setPhoneNumber(phoneNumber)
                 .setSubject(subject)
-                .setHobby()
+                .setHobby(hobby)
                 .setChoosePicture()
                 .setAddress(address)
                 .setState()
                 .setCity()
                 .submit();
 
-        HomePage homePage = new HomePage(driver);
 
         if (success) {
-            assertTrue(homePage.isSuccessNotificationPresent(), "Success Notification is not displayed");
+            assertTrue(homePage.getForm().isSuccessNotificationPresent(), "Success Notification is not displayed");
+            assertTrue(homePage.getForm().verifyFormData(firstName + " " + lastName, email, gender, phoneNumber, subject, hobby, address), "Data does not match");
         } else {
-            assertFalse(homePage.isSuccessNotificationPresent(), "Success Notification is displayed but should not be");
+            assertFalse(homePage.getForm().isSuccessNotificationPresent(), "Success Notification is displayed but should not be");
         }
     }
 
