@@ -17,7 +17,7 @@ public class BaseTest {
     @Parameters("browser")
     @BeforeClass
     public void setUp(@Optional("edge") String browser) {
-        logger.info("Received browser parameter: " + browser); // Логируем параметр
+        logger.info("Received browser parameter: {}", browser);
         BrowserStrategy strategy;
 
         if ("chrome".equalsIgnoreCase(browser)) {
