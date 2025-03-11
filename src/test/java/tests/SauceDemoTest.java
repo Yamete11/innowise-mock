@@ -1,15 +1,14 @@
 package tests;
 
+import org.example.annotations.MethodOwner;
+import org.example.annotations.Priority;
+import org.example.annotations.LEVEL;
 import org.example.sauceDemo.pages.HomePage;
 import org.example.sauceDemo.pages.LoginPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterClass;
+import org.example.utils.P;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utils.TestUtils;
-
-import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
@@ -17,14 +16,16 @@ public class SauceDemoTest extends BaseTest {
 
     @BeforeClass
     public void openPage() {
-        driver.get("https://www.saucedemo.com/");
+        driver.get(P.CONFIG("sauceDemoUrl"));
         driver.manage().window().maximize();
 
     }
 
 
     @Test
-    public void testOfSorting() throws InterruptedException {
+    @MethodOwner("Gleb")
+    @Priority(LEVEL.P2)
+    public void testOfSorting(){
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login("standard_user", "secret_sauce");
 

@@ -15,6 +15,9 @@ public class AboutPage {
     @FindBy(xpath = "//div[@class='online_stat_label gamers_in_game']/..")
     private WebElement playingPlayers;
 
+    @FindBy(className = "about_subtitle")
+    private WebElement pageTitle;
+
 
     public AboutPage(WebDriver driver) {
         this.driver = driver;
@@ -31,6 +34,9 @@ public class AboutPage {
         return Integer.parseInt(element.getText().replaceAll("[^0-9]", ""));
     }
 
+    public WebElement getPageTitle() {
+        return pageTitle;
+    }
 
     public WebElement getOnlinePlayers() {
         return onlinePlayers;

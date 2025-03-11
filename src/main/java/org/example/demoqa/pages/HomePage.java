@@ -2,6 +2,7 @@ package org.example.demoqa.pages;
 
 import org.example.demoqa.components.Form;
 import org.example.steam.components.Header;
+import org.example.utils.P;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -23,10 +24,8 @@ public class HomePage {
 
     private WebDriver driver;
 
+    @FindBy(id = "userForm")
     private Form form;
-
-    String filePath = new File("src/main/resources/test3.jpg").getAbsolutePath();
-
 
     @FindBy(id = "firstName")
     private WebElement firstName;
@@ -145,8 +144,8 @@ public class HomePage {
         }
 
 
-        public FormBuilder setChoosePicture() {
-            homePage.choosePictureButton.sendKeys(homePage.filePath);
+        public FormBuilder setChoosePicture(String filePath) {
+            homePage.choosePictureButton.sendKeys(filePath);
             return this;
         }
 
@@ -195,5 +194,6 @@ public class HomePage {
         }
 
     }
+
 
 }

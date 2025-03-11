@@ -1,13 +1,15 @@
 package tests;
 
+import org.example.annotations.MethodOwner;
+import org.example.annotations.Priority;
+import org.example.annotations.LEVEL;
 import org.example.steam.model.GameInfo;
 import org.example.steam.pages.AboutPage;
 import org.example.steam.pages.GamePage;
 import org.example.steam.pages.HomePage;
 import org.example.steam.pages.StorePage;
-import org.openqa.selenium.WebDriver;
+import org.example.utils.P;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
@@ -24,12 +26,14 @@ public class SteamTest extends BaseTest {
 
     @BeforeMethod
     public void openPage() {
-        driver.get("https://store.steampowered.com/");
+        driver.get(P.CONFIG("steamUrl"));
         driver.manage().window().maximize();
     }
 
     @Test
-    public void testFirstCase(){
+    @MethodOwner("Gleb")
+    @Priority(LEVEL.P3)
+    public void testCompareNumberOfPlayers(){
         HomePage homePage = new HomePage(driver);
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -38,11 +42,14 @@ public class SteamTest extends BaseTest {
 
         AboutPage aboutPage = new AboutPage(driver);
 
+        assertTrue(aboutPage.getPageTitle().isDisplayed(), "Page title is not displayed");
         assertTrue(aboutPage.checkDifference(), "Playing players more then online");
     }
 
     @Test
-    public void testSecondCase(){
+    @MethodOwner("Gleb")
+    @Priority(LEVEL.P3)
+    public void testGetTopSellers(){
         HomePage homePage = new HomePage(driver);
 
         homePage.clickOnNewNoteWorthy();

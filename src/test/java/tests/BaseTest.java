@@ -16,7 +16,7 @@ public class BaseTest {
 
     @Parameters("browser")
     @BeforeClass
-    public void setUp(@Optional("edge") String browser) {
+    public void setUp(@Optional("chrome") String browser) {
         logger.info("Received browser parameter: {}", browser);
         BrowserStrategy strategy;
 

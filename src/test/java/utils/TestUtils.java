@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.File;
 import java.util.List;
 
 public class TestUtils {
@@ -25,6 +26,10 @@ public class TestUtils {
         } catch (NumberFormatException e) {
             return 0.0;
         }
+    }
+
+    public static String getFileName(String filePath) {
+        return new File(filePath).getName();
     }
 
 

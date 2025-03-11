@@ -16,7 +16,6 @@ public class StorePage {
 
     private WebDriver driver;
 
-
     @FindBy(xpath = "//button[contains(@class, \"DialogDropDown _DialogInputContainer\")]")
     private WebElement filterButton;
 

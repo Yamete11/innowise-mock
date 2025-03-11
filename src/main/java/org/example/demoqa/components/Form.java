@@ -57,13 +57,14 @@ public class Form {
         }
     }
 
-    public boolean verifyFormData(String expectedName, String expectedEmail, String expectedGender, String expectedPhone, String expectedSubject, String expectedHobby, String expectedAddress) {
+    public boolean verifyFormData(String expectedName, String expectedEmail, String expectedGender, String expectedPhone, String expectedSubject, String expectedHobby, String expectedPicture, String expectedAddress) {
         return fullName.getText().equals(expectedName)
                 && email.getText().equals(expectedEmail)
                 && gander.getText().equals(expectedGender)
                 && mobile.getText().equals(expectedPhone)
                 && subjects.getText().contains(expectedSubject)
                 && hobby.getText().equals(expectedHobby)
+                && picture.getText().equals(expectedPicture)
                 && address.getText().equals(expectedAddress);
     }
 
