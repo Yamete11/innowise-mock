@@ -9,7 +9,7 @@ public class Header {
 
     private WebDriver driver;
 
-    @FindBy(xpath = "//a[contains(text(), 'About') and @href=\"https://store.steampowered.com/about/?snr=1_4_4__global-header\"]")
+    @FindBy(xpath = "//div[@id=\"global_header\"]//a[contains(text(), 'About')]")
     private WebElement aboutButton;
 
     public Header(WebDriver driver) {

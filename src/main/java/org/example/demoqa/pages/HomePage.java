@@ -122,14 +122,13 @@ public class HomePage {
         public FormBuilder setSubject(String subject) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-            wait.until(ExpectedConditions.elementToBeClickable(homePage.subject));
-            homePage.subject.click();
             homePage.subjectInput.sendKeys(subject);
 
             wait.until(ExpectedConditions.elementToBeClickable(homePage.subjectOption));
             homePage.subjectOption.click();
             return this;
         }
+
 
         public FormBuilder setHobby(String hobbyToSelect) {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));

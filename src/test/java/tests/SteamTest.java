@@ -1,8 +1,5 @@
 package tests;
 
-import org.example.annotations.MethodOwner;
-import org.example.annotations.Priority;
-import org.example.annotations.LEVEL;
 import org.example.steam.model.GameInfo;
 import org.example.steam.pages.AboutPage;
 import org.example.steam.pages.GamePage;
@@ -31,8 +28,6 @@ public class SteamTest extends BaseTest {
     }
 
     @Test
-    @MethodOwner("Gleb")
-    @Priority(LEVEL.P3)
     public void testCompareNumberOfPlayers(){
         HomePage homePage = new HomePage(driver);
 
@@ -47,8 +42,6 @@ public class SteamTest extends BaseTest {
     }
 
     @Test
-    @MethodOwner("Gleb")
-    @Priority(LEVEL.P3)
     public void testGetTopSellers(){
         HomePage homePage = new HomePage(driver);
 

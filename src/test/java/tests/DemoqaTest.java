@@ -1,8 +1,5 @@
 package tests;
 
-import org.example.annotations.MethodOwner;
-import org.example.annotations.Priority;
-import org.example.annotations.LEVEL;
 import org.example.demoqa.pages.HomePage;
 import org.example.utils.P;
 import org.testng.annotations.*;
@@ -35,8 +32,6 @@ public class DemoqaTest extends BaseTest {
     }
 
     @Test(dataProvider = "formData")
-    @MethodOwner("Gleb")
-    @Priority(LEVEL.P1)
     public void testSendingForm(String firstName, String lastName, String email, String gender, String phoneNumber, String subject, String hobby, String picture, String address, boolean success) {
         HomePage.FormBuilder formBuilder = new HomePage.FormBuilder(driver);
         HomePage homePage = formBuilder.getHomePage();
