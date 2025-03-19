@@ -42,7 +42,7 @@ public class SteamTest extends BaseTest {
     }
 
     @Test
-    public void testGetTopSellers(){
+    public void testGetTopSellers() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
 
         homePage.clickOnNewNoteWorthy();
@@ -61,7 +61,7 @@ public class SteamTest extends BaseTest {
                 storePage.extractTitle(gamesList.get(0)),
                 TestUtils.extractPrice(storePage.extractPrice(gamesList.get(0)))
         );
-
+        Thread.sleep(5000);
         gamesList.get(0).click();
 
         GamePage gamePage = new GamePage(driver);

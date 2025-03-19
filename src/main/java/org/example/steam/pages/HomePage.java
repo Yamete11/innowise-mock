@@ -19,7 +19,7 @@ public class HomePage {
     @FindBy(id = "noteworthy_tab")
     private WebElement newNoteWorthy;
 
-    @FindBy(xpath = "//a[@href=\"https://store.steampowered.com/charts/topselling/?snr=1_4_4__12\"]")
+    @FindBy(xpath = "//div[@id=\"noteworthy_flyout\"]//a[contains(text(), \"Top Sellers\")]")
     private WebElement topSellers;
 
     public HomePage(WebDriver driver) {

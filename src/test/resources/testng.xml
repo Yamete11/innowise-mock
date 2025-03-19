@@ -1,4 +1,4 @@
-<suite name="Parallel Test Suite" parallel="tests" thread-count="2">
+<suite name="Parallel Test Suite" parallel="tests" thread-count="3">
     <test name="ChromeTests">
         <parameter name="browser" value="chrome"/>
         <classes>
@@ -10,6 +10,15 @@
 
     <test name="EdgeTests">
         <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="tests.DemoqaTest"/>
+            <class name="tests.SauceDemoTest"/>
+            <class name="tests.SteamTest"/>
+        </classes>
+    </test>
+
+    <test name="GeckoTests">
+        <parameter name="browser" value="firefox"/>
         <classes>
             <class name="tests.DemoqaTest"/>
             <class name="tests.SauceDemoTest"/>

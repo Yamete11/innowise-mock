@@ -1,9 +1,6 @@
 package tests;
 
-import org.example.strategy.BrowserContext;
-import org.example.strategy.BrowserStrategy;
-import org.example.strategy.ChromeStrategy;
-import org.example.strategy.EdgeStrategy;
+import org.example.strategy.*;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +11,9 @@ public class BaseTest {
     protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
     protected WebDriver driver;
 
-    @Parameters("browser")
+    @Parameters("firefox")
     @BeforeClass
-    public void setUp(@Optional("chrome") String browser) {
+    public void setUp(@Optional("firefox") String browser) {
         logger.info("Received browser parameter: {}", browser);
         BrowserStrategy strategy;
 
@@ -24,6 +21,8 @@ public class BaseTest {
             strategy = new ChromeStrategy();
         } else if ("edge".equalsIgnoreCase(browser)) {
             strategy = new EdgeStrategy();
+        } else if ("firefox".equalsIgnoreCase(browser)) {
+            strategy = new FireFoxStrategy();
         } else {
             throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
