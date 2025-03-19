@@ -61,7 +61,7 @@ public class SteamTest extends BaseTest {
                 storePage.extractTitle(gamesList.get(0)),
                 TestUtils.extractPrice(storePage.extractPrice(gamesList.get(0)))
         );
-        Thread.sleep(5000);
+        wait.until(ExpectedConditions.elementToBeClickable(gamesList.get(0)));
         gamesList.get(0).click();
 
         GamePage gamePage = new GamePage(driver);

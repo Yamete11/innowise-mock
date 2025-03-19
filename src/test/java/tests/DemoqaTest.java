@@ -23,16 +23,16 @@ public class DemoqaTest extends BaseTest {
     @DataProvider(name = "formData")
     public Object[][] provideFormData() {
         return new Object[][] {
-                { "John", "Doe", "john.doe@gmail.com", "Male", "1234567123", "Maths", "Sports", filePath, "Hello There", true },
-                { "John", "Doe", "john.doe@gmail.com", "Male", "1", "Maths", "Sports", filePath, "Hello There", false },
-                { "John", "", "john.doe@gmail.com", "Male", "1234567123", "Maths", "Sports", filePath, "Hello There", false },
-                { "", "Doe", "john.doe@gmail.com", "Male", "1234567123", "Maths", "Sports", filePath, "Hello There", false },
-                { "John", "Doe", "john.doe@gmail.com", "", "1234567123", "Maths", "Sports", filePath, "Hello There", false },
+                { "John", "Doe", "john.doe@gmail.com", "Male", "1234567123", "29 December,2024", "Maths", "Sports", filePath, "Hello There", true },
+                { "John", "Doe", "john.doe@gmail.com", "Male", "1", "20 November,2025", "Maths", "Sports", filePath, "Hello There", false },
+                { "John", "", "john.doe@gmail.com", "Male", "1234567123", "25 December,2024", "Maths", "Sports", filePath, "Hello There", false },
+                { "", "Doe", "john.doe@gmail.com", "Male", "1234567123", "16 August,2024", "Maths", "Sports", filePath, "Hello There", false },
+                { "John", "Doe", "john.doe@gmail.com", "", "1234567123", "23 October,2024", "Maths", "Sports", filePath, "Hello There", false },
         };
     }
 
     @Test(dataProvider = "formData")
-    public void testSendingForm(String firstName, String lastName, String email, String gender, String phoneNumber, String subject, String hobby, String picture, String address, boolean success) {
+    public void testSendingForm(String firstName, String lastName, String email, String gender, String phoneNumber, String dateOfBirth, String subject, String hobby, String picture, String address, boolean success) throws InterruptedException {
         HomePage.FormBuilder formBuilder = new HomePage.FormBuilder(driver);
         HomePage homePage = formBuilder.getHomePage();
         formBuilder
@@ -41,6 +41,7 @@ public class DemoqaTest extends BaseTest {
                 .setEmail(email)
                 .setGender(gender)
                 .setPhoneNumber(phoneNumber)
+                .setDateOfBirth(dateOfBirth)
                 .setSubject(subject)
                 .setHobby(hobby)
                 .setChoosePicture(picture)
@@ -49,10 +50,11 @@ public class DemoqaTest extends BaseTest {
                 .setCity()
                 .submit();
 
+        Thread.sleep(5000);
 
         if (success) {
             assertTrue(homePage.getForm().isSuccessNotificationPresent(), "Success Notification is not displayed");
-            assertTrue(homePage.getForm().verifyFormData(firstName + " " + lastName, email, gender, phoneNumber, subject, hobby, TestUtils.getFileName(picture), address), "Data does not match");
+            assertTrue(homePage.getForm().verifyFormData(firstName + " " + lastName, email, gender, phoneNumber, dateOfBirth, subject, hobby, TestUtils.getFileName(picture), address), "Data does not match");
         } else {
             assertFalse(homePage.getForm().isSuccessNotificationPresent(), "Success Notification is displayed but should not be");
         }

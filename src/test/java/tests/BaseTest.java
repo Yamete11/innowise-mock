@@ -11,9 +11,10 @@ public class BaseTest {
     protected static final Logger logger = LoggerFactory.getLogger(BaseTest.class);
     protected WebDriver driver;
 
-    @Parameters("firefox")
+
+    @Parameters("browser")
     @BeforeClass
-    public void setUp(@Optional("firefox") String browser) {
+    public void setUp(@Optional("chrome") String browser) {
         logger.info("Received browser parameter: {}", browser);
         BrowserStrategy strategy;
 

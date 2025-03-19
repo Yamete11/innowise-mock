@@ -3,10 +3,8 @@ package org.example.demoqa.pages;
 import org.example.demoqa.components.Form;
 import org.example.steam.components.Header;
 import org.example.utils.P;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,7 +15,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.nio.file.Paths;
 import java.security.interfaces.XECPrivateKey;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Objects;
 
 public class HomePage {
@@ -39,8 +39,8 @@ public class HomePage {
     @FindBy(id = "userNumber")
     private WebElement phoneNumber;
 
-    @FindBy(id = "subjectsContainer")
-    private WebElement subject;
+    @FindBy(id = "dateOfBirthInput")
+    private WebElement dateOfBirth;
 
     @FindBy(id = "subjectsInput")
     private WebElement subjectInput;
@@ -107,6 +107,13 @@ public class HomePage {
             return this;
         }
 
+        public FormBuilder setDateOfBirth(String dateOfBirth) {
+            homePage.dateOfBirth.sendKeys(Keys.CONTROL + "a");
+            homePage.dateOfBirth.sendKeys(dateOfBirth);
+            return this;
+        }
+
+
         public FormBuilder setPhoneNumber(String phoneNumber) {
             homePage.phoneNumber.sendKeys(phoneNumber);
             return this;
@@ -120,12 +127,16 @@ public class HomePage {
         }
 
         public FormBuilder setSubject(String subject) {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            FluentWait<WebDriver> wait = new FluentWait<>(driver)
+                    .withTimeout(Duration.ofSeconds(10))
+                    .pollingEvery(Duration.ofSeconds(1))
+                    .ignoring(NoSuchElementException.class);
 
             homePage.subjectInput.sendKeys(subject);
 
             wait.until(ExpectedConditions.elementToBeClickable(homePage.subjectOption));
             homePage.subjectOption.click();
+
             return this;
         }
 
