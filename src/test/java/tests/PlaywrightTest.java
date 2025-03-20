@@ -1,19 +1,15 @@
 package tests;
 
 import com.microsoft.playwright.*;
-import org.example.playwright.FormPage;
-import org.example.playwright.SauceHomePage;
-import org.example.playwright.SauceLoginPage;
-import org.example.playwright.TextBoxPage;
-import org.example.utils.P;
+import org.innowise.playwright.*;
+import org.innowise.utils.P;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import utils.TestUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +28,7 @@ public class PlaywrightTest {
     public void setUp() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-        context = browser.newContext(new Browser.NewContextOptions().setViewportSize(1920, 1080));
+        context = browser.newContext(new Browser.NewContextOptions().setViewportSize(2200, 1200));
     }
 
     @DataProvider(name = "textBoxData")
@@ -67,21 +63,41 @@ public class PlaywrightTest {
     @DataProvider(name = "formData")
     public Object[][] getFormData(){
         return new Object[][]{
-                {"My  first name", "My last name", "myEmail@my.com", "Male", "1234567890", "Maths", "Sports", "CurrentAddress", filePath},
-                {"Your first name", "Your lastEmail", "yourEmail@my.com", "Female", "1234567890", "Maths", "Reading", "CurrentAddress", filePath},
+                {"My first name", "My last name", "myEmail@my.com", "Male", "1234567890", "29 December,2024", "Maths", "Sports", "CurrentAddress", "NCR", "Delhi", filePath, true},
+                {"Your first name", "Your last name", "yourEmail@my.com", "Female", "1234567890", "27 November,2024", "Maths", "Reading", "CurrentAddress", "Haryana", "Karnal", filePath, true},
         };
     }
 
     @Test(dataProvider = "formData")
-    public void testSendingForm(String firstName, String lastName, String email, String gender, String mobile, String subject, String hobby, String currentAddress, String file) throws InterruptedException {
+    public void testSendingForm(String firstName, String lastName, String email, String gender, String mobile,
+                                String dateOfBirth, String subject, String hobby, String currentAddress,
+                                String state, String city, String file, boolean success) throws InterruptedException {
         page = context.newPage();
         FormPage formPage = new FormPage(page);
         page.navigate("https://demoqa.com/automation-practice-form");
 
-        formPage.fillForm(firstName, lastName, email, gender, mobile, subject, hobby, currentAddress, file);
+        formPage.fillForm(firstName, lastName, email, gender, mobile, dateOfBirth, subject, hobby, currentAddress, state, city, file);
         formPage.submit();
-        Thread.sleep(5000);
+
+        FormInfo formInfo = new FormInfo(page);
+
+        boolean result = formInfo.verifyFormData(
+                firstName + " " + lastName,
+                email,
+                gender,
+                mobile,
+                dateOfBirth,
+                subject,
+                hobby,
+                currentAddress,
+                state + " " + city,
+                TestUtils.getFileName(file)
+        );
+        if (success) {
+            assertTrue(result, "Data is not the same as expected");
+        }
     }
+
 
     @Test
     public void testingSorting(){

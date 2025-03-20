@@ -1,6 +1,6 @@
 package tests;
 
-import org.example.strategy.*;
+import org.innowise.browserinitialization.*;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,8 @@ public class BaseTest {
 
         driver = new BrowserContext(strategy).getDriver();
         logger.info("Initialized {} driver", browser);
+        driver.manage().window().maximize();
+
     }
 
 

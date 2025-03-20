@@ -1,11 +1,11 @@
 package tests;
 
-import org.example.steam.model.GameInfo;
-import org.example.steam.pages.AboutPage;
-import org.example.steam.pages.GamePage;
-import org.example.steam.pages.HomePage;
-import org.example.steam.pages.StorePage;
-import org.example.utils.P;
+import org.innowise.selenium.steam.model.GameInfo;
+import org.innowise.selenium.steam.pages.AboutPage;
+import org.innowise.selenium.steam.pages.GamePage;
+import org.innowise.selenium.steam.pages.HomePage;
+import org.innowise.selenium.steam.pages.StorePage;
+import org.innowise.utils.P;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -24,7 +24,6 @@ public class SteamTest extends BaseTest {
     @BeforeMethod
     public void openPage() {
         driver.get(P.CONFIG("steamUrl"));
-        driver.manage().window().maximize();
     }
 
     @Test

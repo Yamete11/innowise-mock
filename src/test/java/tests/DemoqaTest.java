@@ -1,7 +1,7 @@
 package tests;
 
-import org.example.demoqa.pages.HomePage;
-import org.example.utils.P;
+import org.innowise.selenium.demoqa.pages.HomePage;
+import org.innowise.utils.P;
 import org.testng.annotations.*;
 import utils.TestUtils;
 
@@ -17,7 +17,6 @@ public class DemoqaTest extends BaseTest {
     @BeforeClass
     public void openPage() {
         driver.get(P.CONFIG("demoqaUrl"));
-        driver.manage().window().maximize();
     }
 
     @DataProvider(name = "formData")
